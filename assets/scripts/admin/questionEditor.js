@@ -1267,10 +1267,10 @@ LS.questionEditor = (function () {
      */
   function checkCodeUniqueness(code) {
       let isValid = false;
-      console.log('Is Valid: ' + isValid.toString());
       const checkQuestionCodeIsUniqueURL = languageJson.checkQuestionCodeIsUniqueURL;
       let checkCodePromise = getCheckUniquenessPromise(checkQuestionCodeIsUniqueURL, code);
       checkCodePromise.then((response) => {
+          console.log('Success');
           console.log('Status: ' +  response.status);
           console.log(response.statusText);
           console.log(response.statusCode);
@@ -1279,7 +1279,6 @@ LS.questionEditor = (function () {
       }).catch((error) => {
           console.log('Status: ' +  error.status);
           console.log(error);
-           isValid = false;
           console.log('Is Valid: ' + isValid.toString());
       });
 
@@ -1301,13 +1300,9 @@ LS.questionEditor = (function () {
               dataType: 'json',
               success: (data) => {
                   resolve(data);
-                  console.log('Success');
-                  console.log(data);
               },
               error: (data) => {
                   reject(data);
-                  console.log('Error');
-                  console.log(data);
               }
           });
       });

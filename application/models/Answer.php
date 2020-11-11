@@ -94,6 +94,7 @@ class Answer extends LSActiveRecord
     /**
      * @param integer $qid
      * @return CDbDataReader
+     * @throws CException
      */
     public function getAnswers($qid)
     {
@@ -106,14 +107,21 @@ class Answer extends LSActiveRecord
             ->query();
     }
 
-    public function checkUniqueness($attribute, $params)
+    /**
+     */
+    public function checkUniqueness()
     {
+        $isUnique = false;
         if($this->code !== $this->oldCode || $this->qid != $this->oldQid || $this->scale_id != $this->oldScaleId)
         {
             $model = self::model()->find('code = ? AND qid = ? AND scale_id = ?', array($this->code, $this->qid, $this->scale_id));
-            if($model != null)
+            if ($model != null) {
                 $this->addError('code','Answer codes must be unique by question');
-        }   
+            } else {
+                $isUnique = true;
+            }
+        }
+        return $isUnique;
     }
 
     protected function afterFind()

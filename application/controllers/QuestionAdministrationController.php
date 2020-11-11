@@ -2768,13 +2768,7 @@ class QuestionAdministrationController extends LSBaseController
      */
     public function actionCheckAnswerCodeIsUnique(string $code): bool
     {
-        $answer = Answer::model()->getAnswerFromCode($code);
-        if ($answer->code !== $code || $answer === null) {
-            $isValid = true;
-        } else {
-            $isValid = false;
-        }
-        return $isValid;
+        return Answer::model()->checkUniqueness();
     }
 
     /**
