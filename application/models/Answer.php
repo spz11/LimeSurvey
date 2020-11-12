@@ -108,6 +108,7 @@ class Answer extends LSActiveRecord
     }
 
     /**
+     * Checks if code or id is unique.
      */
     public function checkUniqueness()
     {

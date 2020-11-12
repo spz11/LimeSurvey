@@ -1270,16 +1270,10 @@ LS.questionEditor = (function () {
       const checkQuestionCodeIsUniqueURL = languageJson.checkQuestionCodeIsUniqueURL;
       let checkCodePromise = getCheckUniquenessPromise(checkQuestionCodeIsUniqueURL, code);
       checkCodePromise.then((response) => {
-          console.log('Success');
-          console.log('Status: ' +  response.status);
-          console.log(response.statusText);
-          console.log(response.statusCode);
-           isValid = true;
-          console.log('Is Valid: ' + isValid.toString());
+           isValid = response.isUnique;
       }).catch((error) => {
-          console.log('Status: ' +  error.status);
-          console.log(error);
-          console.log('Is Valid: ' + isValid.toString());
+        console.log('Catch Error');
+        console.log(error);
       });
 
       return isValid;
@@ -1291,7 +1285,6 @@ LS.questionEditor = (function () {
      * @returns {Promise}
      */
   function getCheckUniquenessPromise(url, code) {
-        console.log('URL: ' + url);
       return new Promise((resolve, reject) => {
           $.ajax({
               url: url,
@@ -1454,20 +1447,18 @@ LS.questionEditor = (function () {
     $('#questionCode').focusout( () => {
         let code = $('#questionCode').val();
         if (code !== undefined || code !== '') {
-            console.log('Question Code: ' + code);
             let isValid = checkCodeUniqueness(code);
-        //     if (!isValid) {
-        //         console.log('Error Code is not unqiue.');
-        //     }
-        //     console.log('IsValid: ' + isValid);
-        } else {
-            console.log('Question Code is empty');
-        }
+            if (!isValid) {
+              let errorMessage = 'Error Code is not unqiue.';
+              $('#codeWarning').text(errorMessage);
+             // $('#codeWarning').addClass('bg-warning text-white');
+            }
     });
 
+    /*****************************************/
     // Check Answer Code is unique.
      $('#answerCode').focusout( () => {
-        // Answer code
+        // Answer Code
      });
 
      // Check Sub Question Code is unique.

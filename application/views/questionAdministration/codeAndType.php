@@ -55,7 +55,8 @@ $oQuestionSelector = $this->beginWidget(
         />
         -->
     </div>
-    <p class="well bg-warning scoped-highten-z" v-if="noCodeWarning!=null">{{noCodeWarning}}</p>
+    <!-- <p id="codeWarning" class="well bg-warning scoped-highten-z" v-if="noCodeWarning!=null">{{noCodeWarning}}</p> -->
+    <p id="codeWarning" class="well scoped-highten-z">noCodeWarning</p>
 </div>
 <div class="form-group col-sm-6 contains-question-selector">
     <label for="questionCode"><?= gT('Question type'); ?></label>

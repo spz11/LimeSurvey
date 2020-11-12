@@ -2768,7 +2768,7 @@ class QuestionAdministrationController extends LSBaseController
      */
     public function actionCheckAnswerCodeIsUnique(string $code): bool
     {
-        return Answer::model()->checkUniqueness();
+        return $this->renderJson(['isUnique' => Answer::model()->checkUniqueness()]);
     }
 
     /**
