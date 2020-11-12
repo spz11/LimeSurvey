@@ -1453,6 +1453,7 @@ LS.questionEditor = (function () {
               $('#codeWarning').text(errorMessage);
              // $('#codeWarning').addClass('bg-warning text-white');
             }
+          }
     });
 
     /*****************************************/
