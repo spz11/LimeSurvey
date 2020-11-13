@@ -2764,11 +2764,13 @@ class QuestionAdministrationController extends LSBaseController
     /**
      * Checks given answer code is unique.
      * @param string $code
-     * @return bool
+     * @return string
      */
-    public function actionCheckAnswerCodeIsUnique(string $code): bool
+    public function actionCheckAnswerCodeIsUnique(string $code): string
     {
-        return $this->renderJson(['isUnique' => Answer::model()->checkUniqueness()]);
+        return $this->renderJson([
+            'isUnique' => Answer::model()->checkUniqueness($code)
+        ]);
     }
 
     /**
@@ -2788,16 +2790,6 @@ class QuestionAdministrationController extends LSBaseController
      */
     public function actionCheckQuestionCodeIsUnique(string $code): string
     {
-        return '';
-    }
-
-    /**
-     * Checks if code is unique.
-     * @param string $code
-     * @return bool
-     */
-    private function checkCode(string $code): bool
-    {
-        return true;
+        return $this->renderJson(['isUnique' => Question::model()->checkUniqueness($code)]);
     }
 }

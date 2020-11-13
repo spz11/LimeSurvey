@@ -1401,4 +1401,23 @@ class Question extends LSActiveRecord
 
         return $answer;
     }
+
+    /**
+     * Checks if question code is unique.
+     * @param string $code
+     * @return bool
+     */
+    public function checkUniqueness(string $code = ''): bool
+    {
+        $isUnique = false;
+        if ($code !== '') {
+            $model = self::model()->find('title = ?', array($code));
+            if ($model === null) {
+                $isUnique = true;
+            } else {
+                $this->addError('code','Answer codes must be unique by question');
+            }
+        }
+        return $isUnique;
+    }
 }

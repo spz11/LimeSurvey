@@ -1263,20 +1263,26 @@ LS.questionEditor = (function () {
     /**
      *
      * @param code {string}
-     * @returns {boolean}
      */
-  function checkCodeUniqueness(code) {
-      let isValid = false;
+  function checkQuestionCodeUniqueness(code) {
       const checkQuestionCodeIsUniqueURL = languageJson.checkQuestionCodeIsUniqueURL;
-      let checkCodePromise = getCheckUniquenessPromise(checkQuestionCodeIsUniqueURL, code);
+      const checkCodePromise = getCheckUniquenessPromise(checkQuestionCodeIsUniqueURL, code);
       checkCodePromise.then((response) => {
-           isValid = response.isUnique;
+        let isValid = response.isUnique;
+
+        if (!isValid) {
+          let errorMessage = 'Error Code is not unique.';
+          $('#codeWarning').text(errorMessage);
+         // $('#codeWarning').addClass('bg-warning text-white');
+        } else {
+          let message = 'Error Code is unique.';
+          $('#codeWarning').text(message);
+          $('#codeWarning').hide();
+        }
       }).catch((error) => {
         console.log('Catch Error');
         console.log(error);
       });
-
-      return isValid;
   }
 
     /**
@@ -1447,12 +1453,7 @@ LS.questionEditor = (function () {
     $('#questionCode').focusout( () => {
         let code = $('#questionCode').val();
         if (code !== undefined || code !== '') {
-            let isValid = checkCodeUniqueness(code);
-            if (!isValid) {
-              let errorMessage = 'Error Code is not unqiue.';
-              $('#codeWarning').text(errorMessage);
-             // $('#codeWarning').addClass('bg-warning text-white');
-            }
+            checkQuestionCodeUniqueness(code);
           }
     });
 

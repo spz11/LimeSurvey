@@ -109,19 +109,54 @@ class Answer extends LSActiveRecord
 
     /**
      * Checks if code or id is unique.
+     * @param string $code
+     * @param int    $questionID
+     * @param int    $scaleID
+     * @return bool
      */
-    public function checkUniqueness()
+    public function checkUniqueness(string $code = '', int $questionID = 0, int $scaleID = 0)
     {
         $isUnique = false;
-        if($this->code !== $this->oldCode || $this->qid != $this->oldQid || $this->scale_id != $this->oldScaleId)
+
+        /**var_dump('----------------------');
+        $isOldCode = $this->code !== $this->oldCode;
+        var_dump($this-code);
+        var_dump($this->oldCode);
+        var_dump($this-qid);
+        var_dump($this->oldQid);
+        var_dump($this->scale_id);
+        var_dump($this->oldScaleId);
+        var_dump('----------------------');
+        $isOldQid = $this->qid != $this->oldQid;
+        $isOldScaleId =  $this->scale_id != $this->oldScaleId;
+        var_dump($isOldCode);
+        var_dump($isOldQid);
+        var_dump($isOldScaleId);
+        var_dump('----------------------'); **/
+
+        if ($code !== '' || $questionID !== $this->oldQid) {
+            var_dump($questionID);
+            $model = self::model()->find('code = ?', array($code));
+            var_dump($model);
+            if ($model === null) {
+                $isUnique = true;
+            } else {
+                $this->addError('code','Answer codes must be unique by question');
+            }
+        } else {
+          var_dump('isEmpty');  
+        }
+     /*  if ($this->code !== $this->oldCode || $this->qid != $this->oldQid || $this->scale_id != $this->oldScaleId)
         {
+            var_dump('inside if');
             $model = self::model()->find('code = ? AND qid = ? AND scale_id = ?', array($this->code, $this->qid, $this->scale_id));
+            var_dump($model);
             if ($model != null) {
                 $this->addError('code','Answer codes must be unique by question');
             } else {
                 $isUnique = true;
             }
-        }
+        }*/
         return $isUnique;
     }
 
