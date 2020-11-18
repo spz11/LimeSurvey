@@ -1285,7 +1285,35 @@ LS.questionEditor = (function () {
       });
   }
 
+  /**
+   * Checks Answer Options Code is unqiue.
+   * @param {string} code 
+   */
+  function checkAnswerOptionsCodeIsUnique(code) {
+    const checkAnswerOptionsCodeIsUniqueURL = languageJson.checkAnswerCodeIsUniqueURL;
+    console.log(checkAnswerOptionsCodeIsUniqueURL);
+    const checkCodePromise = getCheckUniquenessPromise(checkAnswerOptionsCodeIsUniqueURL, code);
+    checkCodePromise.then((response) => {
+      let isValid = response.isUnique;
+
+        if (!isValid) {
+          let errorMessage = 'Error Code is not unique.';
+          $('#codeWarning').text(errorMessage);
+         // $('#codeWarning').addClass('bg-warning text-white');
+        } else {
+          let message = 'Error Code is unique.';
+          $('#codeWarning').text(message);
+          $('#codeWarning').hide();
+        }
+    }).catch((error) => {
+      console.log('Catch Error');
+      console.log(error);
+    });
+  }
+
     /**
+     * Returns Promise with given URL.
+     * 
      * @param {string} url,
      * @param {string} code
      * @returns {Promise}
@@ -1458,9 +1486,24 @@ LS.questionEditor = (function () {
     });
 
     /*****************************************/
+    /* div class "lang-hide lang-en" */
+    /* Contains all Answer Options for current language */
+   
+
+    /** 
+     * Check if Answer Options Tab is active.
+     *  If active, then filter out all answer options.
+     *  If not, do nothing.
+     */
+
     // Check Answer Code is unique.
      $('#answerCode').focusout( () => {
-        // Answer Code
+        let code = $('#answeroptions[1][0][code]').val();
+        if (code !== undefined || code !== '') {
+          checkAnswerOptionsCodeIsUnique(code);
+        } else {
+          console.log('ERROR');
+        }
      });
 
      // Check Sub Question Code is unique.
